@@ -1,0 +1,40 @@
+.socialize {
+  position: relative;
+  margin-left: 10px;
+  .socialize-button {
+    display: block;
+  }
+
+  .socialize-bar {
+    display: inline-block;
+    position: relative;
+    height: 24px;
+    top: 5px;
+
+    & > div {
+      float: left;
+      padding-right: 15px;
+    }
+
+    .facebook {
+      display: inline-block;
+      position: relative;
+      top: -2px;
+    }
+
+    .twitter {
+      display: inline-block;
+      position: relative;
+    }
+
+    .gplus {
+      display: inline-block;
+      position: relative;
+    }
+  }
+
+  &.active {
+    background: none !important;
+    margin-right: -10px;
+  }
+}

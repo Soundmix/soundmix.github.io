@@ -1,0 +1,126 @@
+.func-bottom-container (@left) {
+  .bottom-container {
+    position: fixed;
+    bottom: 0;
+    left: @left;
+    right: 0;
+    z-index: @menu-left-z-index;
+
+    .notification {
+      line-height: 35px;
+      opacity: 1;
+
+      background: @dark-gray;
+      color: @lighter-gray;
+      padding: 0 10px;
+
+      box-shadow: 3px 3px 3px rgba(0,0,0,0.3);
+      transition: opacity 0.25s linear;
+
+      &.ng-enter,
+      &.ng-leave-active {
+        opacity: 0;
+      }
+    }
+  }
+
+  .cookies-alert {
+    background: rgba(50, 50, 50, 0.95);
+    color: @lighter-gray;
+
+    box-sizing: border-box;
+
+    height: 0;
+    overflow: hidden;
+
+    a {
+      color: @light-gray;
+      text-decoration: underline;
+    }
+
+    &.open {
+      height: auto;
+      padding: @padding-base-horizontal @padding-base-vertical;
+    }
+  }
+
+  .general-error {
+    position: relative;
+
+    line-height: 25px;
+
+    transition: all 0.5s ease;
+    background: red;
+    color: white;
+
+    overflow: hidden;
+
+    top: 150px;
+    max-height: 0;
+
+    z-index: 0;
+    &.open {
+      max-height: none;
+      top: 0;
+    }
+  }
+
+  .has-error .general-error {
+    height: @general-error-height;
+  }
+}
+
+.func-bottom-container-mobile () {
+  .func-bottom-container(0);
+
+  .notification-list {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: @error-z-index;
+  }
+  .has-error {
+    .notification-list {
+      bottom: @general-error-height;
+    }
+  }
+}
+
+.func-bottom-container-desktop () {
+  .func-bottom-container (@menu-left-width);
+
+
+  .notification-list {
+    top: @menu-top-desktop-height;
+    left: @menu-left-width;
+    position: fixed;
+  }
+}
+
+/*
+ * SMALL SCREENS < 768
+ */
+@media screen and (max-width: (@screen-sm-min - 1px)) {
+  .func-bottom-container-mobile ();
+}
+
+/*
+ * TABLETS SCREENS > 768
+ */
+@media screen and (min-width: @screen-sm-min) and (max-width:(@screen-md-min - 1px)) {
+  .func-bottom-container-mobile ();
+}
+
+/*
+ * MEDIUM SCREENS > 940
+ */
+@media screen and (min-width: @screen-md-min) and (max-width:(@screen-lg-min - 1px)) {
+  .func-bottom-container-desktop ();
+}
+
+/*
+ * BIG SCREENS > 1280
+ */
+@media screen and (min-width: @screen-lg-min) {
+  .func-bottom-container-desktop ();
+}

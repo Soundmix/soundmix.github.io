@@ -1,0 +1,124 @@
+@btn-color: black;
+
+.btn {
+  display: inline-block;
+  background: transparent;
+  transition: background,color 0.1s ease;
+
+  color: @btn-color;
+  padding: 5px 10px;
+
+  border: 2px solid black;
+
+  &.btn-tiny {
+    width: auto;
+  }
+
+  &.btn-center {
+    display: block;
+    margin: @padding-large-horizontal auto;
+  }
+
+  &.btn-block {
+    width: 100%;
+  }
+
+  &.btn-orange {
+    border-color: @brand-color;
+    color: white;
+    background-color: @brand-color;
+  }
+
+  &.btn-inline {
+    display: inline-block;
+    width: auto;
+  }
+
+  &.btn-gray {
+    background: #E0E0E0;
+    border: none;
+    border-radius: 5px;
+    padding: 3px 10px;
+  }
+}
+
+.func-button-mobile () {
+  .btn {
+    width: 100%;
+    margin-bottom: 1px;
+
+    background: #E0E0E0;
+    border: none;
+    border-radius: 5px;
+    padding: 3px 10px;
+
+    &.btn-tiny {
+      width: auto;
+      font-size: 11px;
+      padding: 2px 6px;
+      margin-bottom: 0;
+    }
+
+    &.btn-center {
+      padding: 5px 10px;
+      border-radius: 20px;
+    }
+
+    &.ng-click-active {
+      background-color: @light-gray;
+    }
+  }
+}
+
+.func-button-desktop() {
+  .btn {
+    width: 250px;
+    border-radius: 20px;
+
+    &.btn-orange {
+      &:hover {
+        color: @brand-color;
+      }
+    }
+
+    &:hover {
+      background: black;
+      color: white;
+      
+      &.buy{
+        background: @brand-color;
+        .glyphicon:before{
+          color: white;
+        }
+      }
+    }
+  }
+}
+
+/*
+ * SMALL SCREENS < 768
+ */
+@media screen and (max-width: (@screen-sm-min - 1px)) {
+  .func-button-mobile ();
+}
+
+/*
+ * TABLETS SCREENS > 768
+ */
+@media screen and (min-width: @screen-sm-min) and (max-width:(@screen-md-min - 1px)) {
+  .func-button-desktop ();
+}
+
+/*
+ * MEDIUM SCREENS > 940
+ */
+@media screen and (min-width: @screen-md-min) and (max-width:(@screen-lg-min - 1px)) {
+  .func-button-desktop();
+}
+
+/*
+ * BIG SCREENS > 1280
+ */
+@media screen and (min-width: @screen-lg-min) {
+  .func-button-desktop();
+}

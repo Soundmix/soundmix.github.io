@@ -1,0 +1,115 @@
+.menu-top {
+  background: @menu-top-background;
+
+  @menu-font-size: @menu-top-mobile-height / 2.3;
+  color: @menu-top-color;
+
+
+  .menu-item{
+    font-size: @menu-font-size;
+    line-height: @menu-top-mobile-height;
+    padding-left: @padding-base-horizontal;
+
+    .glyphicon {
+      font-size: @menu-font-size + 6;
+      vertical-align: text-bottom;
+    }
+
+    img {
+      height: 25px;
+      vertical-align: text-bottom;
+    }
+  }
+}
+
+.func-menu-top-mobile() {
+  .menu-top {
+    height: @menu-top-mobile-height;
+
+    .header-input {
+      display: none;
+      border: none;
+      padding: 6px;
+      border-radius: 6px;
+      margin-top: 7px;
+      float: left;
+      color: @dark-gray;
+      float: right;
+    }
+
+    .menu-search {
+      position: absolute;
+      left: 30%;
+      right: 0;
+      top: 0;
+
+      &.open {
+        .menu-item-search {
+          color: white;
+        }
+      }
+    }
+
+    .menu-item-search {
+      padding-right: @padding-base-horizontal;
+      transition: color 1s ease;
+      color: @medium-gray;
+      float: right;
+    }
+  }
+}
+
+.func-menu-top-desktop() {
+  .menu-top {
+    height: @menu-top-desktop-height;
+    position: fixed;
+    padding: 0 @padding-base-horizontal;
+    left: 0;
+    right: 0;
+    z-index: 999;
+  }
+}
+
+/*
+ * SMALL SCREENS < 768
+ */
+@media screen and (max-width: (@screen-sm-min - 1px)) {
+  .func-menu-top-mobile();
+
+  .menu-search.open {
+    .header-input {
+      width: 70%;
+      display: block;
+    }
+  }
+}
+
+/*
+ * TABLETS SCREENS > 768
+ */
+@media screen and (min-width: @screen-sm-min) and (max-width:(@screen-md-min - 1px)) {
+  .func-menu-top-mobile();
+
+  .menu-search.open {
+    .header-input {
+      width: 200px;
+      display: block;
+    }
+  }
+}
+
+/*
+ * MEDIUM SCREENS > 940
+ */
+@media screen and (min-width: @screen-md-min) and (max-width:(@screen-lg-min - 1px)) {
+  .func-menu-top-desktop();
+}
+
+/*
+ * BIG SCREENS > 1280
+ */
+@media screen and (min-width: @screen-lg-min) {
+  .func-menu-top-desktop();
+}
+
+

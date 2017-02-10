@@ -1,7 +1,229 @@
-<!DOCTYPE html>
-<html>
-<body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+<!doctype html>
+<html class="no-js" ng-app="orangeRitmicApp" ng-controller="MainCtrl" ng-class="{'display-menu' : displayMenu}" ng-attr-lang="{{ locale }}">
+  <head>
+    <!--[if IE]>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <![endif]-->
+
+    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <meta name="language">
+    <meta name="fragment" content="!">
+    <meta name="description" />
+    <meta name="keywords" />
+    <title></title>
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <link rel="stylesheet" href="extern/libs/jquery.mCustomScrollbar.min.css">
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+  </head>
+
+  <body ng-class="{playing: (currentPlaystackIndex >= 0), 'has-playstack': (currentPlaystack.length > 0), 'has-error': generalError}">
+    <nav class="menu-left">
+      <div class="section menu-left-brand">
+        <a ng-href="#!/{{ locale }}/topReviews" ng-click="menuLeftClick($event, '/topReviews')"><div class="service-logo"></div></a>
+      </div>
+      <div class="section">
+        <div class="">
+          <div class="social-service-share">
+            <a class="social-facebook" ng-href="{{ 'SOCIAL_FACEBOOK' | translate }}"></a>
+            <a class="social-twitter" ng-href="{{ 'SOCIAL_TWITTER' | translate }}"></a>
+            <a class="social-gplus" ng-href="{{ 'SOCIAL_GPLUS' | translate }}"></a>
+          </div>
+          <div class="vertical-separator">|</div>
+          <div class="language-picker">
+            <div uib-dropdown is-open="languagePicker.opened">
+              <a href="javascript:;" ng-click="openLanguagePicker($event)">
+                {{ locale }}
+                <span class="glyphicon" aria-hidden="true"></span>
+              </a>
+              <ul uib-dropdown-menu role="menu">
+                <li role="menuitem" ng-repeat="locale in availableLanguages">
+                  <a ng-click="changeLocale(locale)" href="javascript:;">{{ ::locale }}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+
+      <div class="section scrollable" role="navigation" ng-scrollbars ng-scrollbars-update="updateScrollbar" ng-scrollbars-config="scrollbarConfig">
+        <ul class="list-group">
+          <li ng-class="{selected: isActive('topReviews')}" class="menu-topGenres">
+            <a ng-href="#!/{{ locale }}/topReviews" ng-click="menuLeftClick($event, '/topReviews')" title="{{ 'A11Y_GOTO_TOPREVIEWS' | translate }}">
+              {{ 'MENULEFT_TOPREVIEWS' | translate }}
+            </a>
+          </li>
+        </ul>
+
+        <div class="menu-left-spacer">&nbsp;</div>
+      </div>
+
+      <a href="javascript:;" class="toggle-playlist" ng-class="{opened: playstackOpen, signal: playlistSignal}" ng-click="playstackOpen = !playstackOpen">
+        {{ 'MENULEFT_TOGGLE_PLAYSTACK'  | translate }}
+        <span class="arrow glyphicon glyphicon-chevron-right" ng-class="{'rotated': !isFilterDisplayed}" aria-hidden="true"></span>
+      </a>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="menu-top row">
+        <a class="visible-xs-block visible-sm-block menu-item menu-hamburger" href="javascript:;" ng-click="toggleDisplayMenu()">
+          <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+          <img src="./images/logotopzik.png" alt="topzik logo" />
+        </a>
+        <div class="menu-search hidden-md hidden-lg" ng-class="{open: mobileSearchOpen}">
+          <a class="menu-item menu-item-search" aria-hidden="true" ng-click="mobileSearchOpen ? search(mobileSearchInput) : mobileSearchOpen = true"><span class="glyphicon glyphicon-search"></span></a>
+          <form class="form-inline" ng-submit="search(mobileSearchInput)"><input type="text" class="header-input" ng-model="mobileSearchInput" placeholder="{{ 'MENULEFT_PLACEHOLDER' | translate }}"></form>
+        </div>
+      </div>
+
+      <div id="youtube-player" class="row">
+        <div id="playerContainer"></div>
+        <div class="player-bar">
+          <div class="hidden-xs hidden-sm player-control-bar">
+            <button class="player-control player-previous" title="{{ 'A11Y_PLAYER_PREVIOUS' | translate }}" ng-click="playPrevious()" ng-disabled="!canPlayPrevious()"></button>
+            <button class="player-control player-next" title="{{ 'A11Y_PLAYER_NEXT' | translate }}" ng-click="playNext()" ng-disabled="!canPlayNext()"></button>
+
+            <div class="pull-right">
+              <a href="javascript:;" class="pull-left player-control player-share social-facebook" ng-click="onClickShareLink('facebook', currentTrack)" title="{{ 'A11Y_SHARE_FACEBOOK' | translate:currentTrack.object }}"></a>
+              <a href="javascript:;" class="pull-left player-control player-share social-twitter" ng-click="onClickShareLink('twitter', currentTrack)" title="{{ 'A11Y_SHARE_TWITTER' | translate:currentTrack.object }}"></a>
+              <a href="javascript:;" class="pull-left player-control player-share social-gplus" ng-click="onClickShareLink('gplus', currentTrack)" title="{{ 'A11Y_SHARE_GPLUS' | translate:currentTrack.object }}"></a>
+            </div>
+          </div>
+          <div class="hidden-md hidden-lg player-mobile-control-bar">
+            <div class="player-mobile-left-action">
+              <button class="player-mobile-control" title="{{ 'A11Y_PLAYER_PREVIOUS' | translate }}" ng-click="playPrevious()" ng-disabled="!canPlayPrevious()">
+                <span class="glyphicon glyphicon-backward" aria-hidden="true"></span>
+              </button>
+              <button class="player-mobile-control" title="{{ 'A11Y_PLAYER_NEXT' | translate }}" ng-click="playNext()" ng-disabled="!canPlayNext()">
+                <span class="glyphicon glyphicon-forward" aria-hidden="true"></span>
+              </button>
+            </div>
+            <span class="player-mobile-caption">
+              <span class="player-mobile-item-title">{{ currentTrack.getTitle() }}</span>
+              <span class="player-mobile-item-subtitle">{{ currentTrack.getSubtitle() }}</span>
+            </span>
+            <div class="player-mobile-right-action">
+              <!-- <favorite class="player-mobile-control" item="currentTrack"></favorite> -->
+              <button class="player-mobile-control" ng-click="openModalToCurrentTrack()">
+                <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
+              </button>
+            </div>
+            <span class="player-mobile-playstack-expand-button" ng-class="{open: playstackOpen, signal: playstackSignal}" ng-click="playstackOpen = !playstackOpen"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-playstack angular-animate row" uib-collapse="!playstackOpen" ng-class="{open: playstackOpen, signal: playstackSignal}">
+        <div class="menu-playstack-desktop">
+          <div class="playstack-topbar" ng-class="{shuffle: shuffleActive}">
+            <!-- <button ng-click="addTracksToPlaylist(currentPlaystack)" class="new-playstack" title="{{ 'A11Y_ADD_PLAYSTACK_TO_PLAYLIST' | translate }}"><span aria-hidden="true" class="glyphicon glyphicon-plus" ></span></button> -->
+            <button ng-click="toggleShuffle()" class="playstack-shuffle" title="{{ 'A11Y_TOGGLE_SHUFFLE' | translate }}" ><span aria-hidden="true" class="glyphicon glyphicon-random"></span></button>
+            <button ng-click="clearPlaystack()" class="playstack-clean" title="{{ 'A11Y_CLEAR_PLAYSTACK' | translate }}"><span aria-hidden="true" class="glyphicon glyphicon-trash"></span></button>
+            <button ng-click="playstackOpen = !playstackOpen" class="hidden-sm hidden-xs pull-right"><span aria-hidden="true" class="glyphicon glyphicon-remove"></span></button>
+          </div>
+          <div class="playstack-scrollable">
+            <div ng-show="currentPlaystack.length === 0">{{ 'PLAYLIST_NOITEM' | translate }} </div>
+            <ul ng-hide="currentPlaystack.length === 0" class="playstack-list">
+              <li class="horizontal-item" ng-repeat="(index, track) in currentPlaystack track by $index" ng-class="{playing: currentPlaystackIndex === index, unplayable: track.error}" ng-click="playTrack(index)">
+                <img ng-src="{{ track.getImage() }}" alt="track.getTitle()" />
+                <div class="horizontal-item-icons">
+                  <a ng-click="removeFromPlaystack(index); $event.stopPropagation();" class="horizontal-item-icon horizontal-item-delete" ng-attr-title="{{ 'A11Y_DELETE_PLAYLIST_ITEM' | translate }}"><span aria-hidden="true" class="glyphicon glyphicon-trash"></span></a>
+                  <!-- <favorite class="horizontal-item-icon" item="track"></favorite> -->
+                </div>
+                <div id="favoriteTrackPlaylist" class="horizontal-item-label" ng-class="{ favorite: isFavoriteMenu === true }">
+                  <div class="horizontal-item-title">{{ track.getTitle() }}</div>
+                  <div class="horizontal-item-subtitle">{{ track.getSubtitle() }}</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="main-view" ng-view=""></div>
+
+    <!-- build:js({., ..}) scripts/vendor.js -->
+    <script src="extern/libs/jquery.js"></script>
+    <script src="extern/libs/angular.js"></script>
+    <script src="extern/libs/angular-animate.js"></script>
+    <script src="extern/libs/angular-route.js"></script>
+    <script src="extern/libs/angular-sanitize.js"></script>
+    <script src="extern/libs/angular-translate.js"></script>
+    <script src="extern/libs/angular-touch.js"></script>
+    <script src="extern/libs/angular-google-analytics.js"></script>
+    <script src="extern/libs/ui-bootstrap-tpls.js"></script>
+    <script src="extern/libs/bootstrap-toolkit.js"></script>
+    <script src="extern/libs/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="extern/libs/scrollbars.min.js"></script>
+    <script src="extern/libs/tmhDynamicLocale.min.js"></script>
+    
+    <!-- endbuild -->
+    <script src="scripts/config.js"></script>
+	<!-- <script src="../config/toptubersConfig.js"></script> -->
+    <!-- <script src="scripts/tagsConfig.js"></script> -->
+
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/templates.js"></script>
+    <script src="scripts/configFactory.js"></script>
+    <script src="scripts/locale/en.js"></script>
+    <script src="scripts/locale/fr.js"></script>
+    <script src="scripts/locale/it.js"></script>
+    <script src="scripts/locale/pt.js"></script>
+    <script src="scripts/locale/es.js"></script>
+    <script src="scripts/locale/de.js"></script>
+    <script src="scripts/locale/ro.js"></script>
+    <script src="/extern/libs/angular/i18n/angular-locale_es.js"></script>
+    <script src="/extern/libs/angular/i18n/angular-locale_es.js"></script>
+    <script src="/extern/libs/angular/i18n/angular-locale_fr.js"></script>
+    <script src="/extern/libs/angular/i18n/angular-locale_it.js"></script>
+    <script src="/extern/libs/angular/i18n/angular-locale_pt.js"></script>
+    <script src="/extern/libs/angular/i18n/angular-locale_es.js"></script>
+    <script src="/extern/libs/angular/i18n/angular-locale_de.js"></script>
+    <script src="/extern/libs/angular/i18n/angular-locale_ro.js"></script>
+
+    <script src="scripts/controllers/MainCtrl.js"></script>
+    <script src="scripts/controllers/TopReviewsCtrl.js"></script>
+	<script src="scripts/controllers/ChannelCtrl.js"></script>
+
+    <script src="scripts/controllers/modals/GeneralModalCtrl.js"></script>
+    <script src="scripts/controllers/modals/ShareModalCtrl.js"></script>
+    <script src="scripts/controllers/modals/LanguageSelectorModalCtrl.js"></script>
+    <script src="scripts/controllers/modals/ErrorModalCtrl.js"></script>
+
+    <script src="scripts/services/OpenGraph.js"></script>
+    <script src="scripts/services/SetLocale.js"></script>
+    <script src="scripts/services/SocializeFormatter.js"></script>
+    <script src="scripts/services/URLFormatter.js"></script>
+    <script src="scripts/services/Responsive.js"></script>
+    <script src="scripts/services/ModalService.js"></script>
+    <script src="scripts/services/CountriesService.js"></script>
+    <script src="scripts/services/CookiesService.js"></script>
+    <script src="scripts/services/Shuffle.js"></script>
+
+    <script src="scripts/directives/listItem.js"></script>
+    <script src="scripts/directives/headereffect.js"></script>
+    <script src="scripts/directives/tracklist.js"></script>
+    <script src="scripts/directives/socialize.js"></script>
+    <script src="scripts/directives/backToTop.js"></script>
+    <script src="scripts/directives/channelSection.js"></script>
+
+    <script src="scripts/factories/SearchRaw.js"></script>
+    <script src="scripts/factories/Search.js"></script>
+    <script src="scripts/factories/Player.js"></script>
+    <script src="scripts/factories/YoutubeChannelFactory.js"></script>
+    <script src="scripts/factories/YoutubeVideoFactory.js"></script>	
+	
+    <script src="scripts/filters/escapeQuotes.js"></script>
+    <script src="scripts/filters/OrderByTranslated.js"></script>
+    <script src="scripts/filters/indexFilter.js"></script>
+    <!-- endbuild -->
+
 </body>
 </html>

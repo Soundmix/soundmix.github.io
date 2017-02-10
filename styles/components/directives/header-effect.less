@@ -1,0 +1,17 @@
+.image-effect {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-filter: blur(7px) brightness(.8) opacity(0);
+  filter: blur(7px) brightness(.8) opacity(0);
+  background-position: center;
+  background-size: 100%;
+  transition: -webkit-filter 2s ease,filter 2s ease;
+
+  &.selected {
+    -webkit-filter: blur(7px) brightness(.8) opacity(1);
+    filter: blur(7px) brightness(.8) opacity(1);
+  }
+}
+
+

@@ -1,0 +1,52 @@
+<div>
+  <button ng-show="tracks.length" class="btn btn-center" ng-click="playAll()" class="play-all">
+    <span class="playable glyphicon glyphicon-play" aria-hidden="true"></span>
+    {{ 'TOP_GENRES_PLAY_ALL' | translate }}
+  </button>
+  <div ng-hide="tracks.length">
+    {{ 'TRACKLIST_NO_TRACKS' | translate }}
+  </div>
+</div>
+<table class="track-list">
+  <tr
+      ng-repeat="track in tracks | limitTo: nbTracks || tracks.length"
+      class="track-list-row"
+      ng-class="{playing: currentTrack && (currentTrack.getId() === track.getId()), favorite: track.isFavorite, selected: selectedTrack && (selectedTrack.getId() === track.getId())}" data-tracklist-item>
+    <td class="left-icons">
+      <a href="javascript:;" ng-click="playItem(track)" class="track-action" ng-attr-title="{{ 'A11Y_LISTEN_LINK' | translate:'{ name: \''+(track.getTitle()|escapeQuotes)+'\' }' }}">
+        <span ng-show="currentTrack.getId() === track.getId()" class="glyphicon glyphicon-playing"></span>
+        <span ng-hide="currentTrack.getId() === track.getId()" class="glyphicon glyphicon-play"></span>
+      </a>
+      <a href="javascript:;" ng-click="addToPlaystack(track)" class="hidden-xs track-action" aria-hidden="true" ng-attr-title="{{ 'A11Y_APPEND_PLAYLIST_LINK' | translate:'{ name: \''+(track.getTitle()|escapeQuotes)+'\' }' }}">
+        <span class="glyphicon glyphicon-play-next"></span>
+      </a>
+    </td>
+    <td class="middle-information">
+      <span class="trackTitle" ng-model="tracklistName" data-tracklist-item-name>{{ ::track.getTitle() }}</span>
+      <span class="trackArtist" data-tracklist-item-artist>
+        <a ng-href="{{ ::track.getSubtitleLink() }}">
+          <span>{{ ::track.getSubtitle() }}</span>
+        </a>
+      </span>
+    </td>
+    <td class="trackDuration hidden-xs hidden-sm">
+      <span class="">{{ ::track.getDuration() | date:'mm:ss' }}</span>
+    </td>
+    <td class="right-icons" ng-class="::{'user-playlist': playlist}">
+      <favorite item="track" class="track-action clickable"></favorite>
+      <a ng-show="{{ ::track.isBuyable() }}" target="itunes_store" ng-href="{{ ::track.getShopLink() }}" class="hidden-xs hidden-sm track-action" aria-hidden="true" ng-attr-title="{{ 'A11Y_BUY_TRACK_LINK' | translate:track.object }}">
+        <span class="glyphicon glyphicon glyphicon-shopping-cart"></span>
+      </a>
+      <button ng-show="{{ ::track.isAddable() }}" class="hidden-xs hidden-sm clickable track-action" ng-click="addToPlaylist(track)" ng-attr-title="{{ 'A11Y_APPEND_NAMED_PLAYLIST_LINK' | translate:track.object }}">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+      </button>
+      <button ng-show="::playlist" class="track-action" ng-click="deleteFromPlaylist(playlist, track)" ng-attr-title="{{ 'A11Y_REMOVE_TRACK_LINK' | translate:track.object }}">
+        <span ng-hide="track.__deleteLoading" class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        <span ng-show="track.__deleteLoading" class="glyphicon loader" aria-hidden="true"></span>
+      </button>
+      <button class="hidden-md hidden-lg track-action" ng-click="openModal(track)">
+        <span class="glyphicon glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
+      </button>
+    </td>
+  </tr>
+</table>

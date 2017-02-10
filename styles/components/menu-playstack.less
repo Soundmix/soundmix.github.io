@@ -1,0 +1,126 @@
+.playstack-list {
+  padding: 0;
+}
+
+.menu-playstack-desktop {
+  .shuffle .playstack-shuffle .glyphicon:before{
+    color: @brand-color;
+  }
+}
+
+.playstack-scrollable {
+  padding: @padding-large-vertical @padding-base-horizontal;
+}
+
+.func-menu-playstack-mobile() {
+  .menu-playstack {
+    border-bottom: 1px solid black;
+
+    .menu-playstack-desktop {
+      display: none;
+    }
+
+    .playstack-topbar {
+      padding: @padding-large-vertical @padding-base-horizontal;
+      text-align: center;
+      color: @gray;
+      font-size: 22px;
+
+      button {
+        margin-right: @padding-base-horizontal * 2;
+
+        &.pull-right {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}
+
+.func-menu-playstack-desktop() {
+  .menu-playstack {
+    display: block;
+    z-index: @playstack-z-index;
+    position: relative;
+
+    &.open .menu-playstack-desktop {
+      left: @menu-left-width;
+    }
+
+    .menu-playstack-desktop {
+      overflow: auto;
+      position: fixed;
+      top: @menu-top-desktop-height;
+      bottom: -4px;
+      left: 0;
+      width: @menu-left-width;
+      transition: left 1s ease;
+
+      background: white;
+
+      box-shadow: @menu-left-box-shadow;
+
+      padding: @padding-base-vertical 0;
+
+      .playstack-topbar button {
+        padding: @padding-base-vertical @padding-base-horizontal;
+      }
+    }
+
+    .playstack-topbar {
+      button:hover {
+        color: @brand-color;
+      }
+    }
+
+    .playstack-item {
+      background: @lighter-gray;
+
+      .playstack-item-icons {
+        position: absolute;
+        right: -50%;
+        transition: right 0.5s ease;
+        background-color: @brand-color;
+        color: white;
+      }
+
+      &:hover {
+        &:before {
+          display: block;
+        }
+
+        .playstack-item-icons {
+          right: 0;
+        }
+      }
+    }
+  }
+}
+
+/*
+ * SMALL SCREENS < 768
+ */
+@media screen and (max-width: (@screen-sm-min - 1px)) {
+  .func-menu-playstack-mobile();
+}
+
+/*
+ * TABLETS SCREENS > 768
+ */
+@media screen and (min-width: @screen-sm-min) and (max-width:(@screen-md-min - 1px)) {
+  .func-menu-playstack-mobile();
+}
+
+/*
+ * MEDIUM SCREENS > 940
+ */
+@media screen and (min-width: @screen-md-min) and (max-width:(@screen-lg-min - 1px)) {
+  .func-menu-playstack-desktop();
+}
+
+/*
+ * BIG SCREENS > 1280
+ */
+@media screen and (min-width: @screen-lg-min) {
+  .func-menu-playstack-desktop();
+}

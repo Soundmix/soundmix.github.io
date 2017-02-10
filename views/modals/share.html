@@ -1,0 +1,18 @@
+<div class="modal-header">
+  <h2>{{ 'MODAL_SHARE_ITEM' | translate }}</h2>
+  <span class="modal-close" ng-click="close()"><span class="glyphicon glyphicon-remove"></span></span>
+</div>
+<div class="">
+  <a ng-click="share('facebook', item)" class="modal-element-mobile">
+    <span class="glyphicon glyphicon-facebook"></span>
+    <span class="modal-element-text">{{ 'MODAL_SHARE_FACEBOOK' | translate }}</span>
+  </a>
+  <a ng-click="share('twitter', item)" class="modal-element-mobile">
+    <span class="glyphicon glyphicon-twitter"></span>
+    <span class="modal-element-text">{{ 'MODAL_SHARE_TWITTER' | translate }}</span>
+  </a>
+  <a ng-click="share('gplus', item)" class="modal-element-mobile">
+    <span class="glyphicon glyphicon-gplus"></span>
+    <span class="modal-element-text">{{ 'MODAL_SHARE_GOOGLE' | translate }}</span>
+  </a>
+</div>

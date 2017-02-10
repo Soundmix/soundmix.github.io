@@ -1,0 +1,29 @@
+<div>
+  <!-- <div class="list-item-image" ng-click="onImageClick()" > -->
+  <div class="list-item-image">
+    <img ng-src="{{ ::item.getImage() }}" ng-attr-alt="{{ ::item.getTitle() }}" />
+    <!-- <div class="list-item-overlay"> -->
+		<!-- <button ng-click="playItem()" class="item item-play" ng-attr-title="{{ 'A11Y_LISTEN_LINK' | translate:'{ name: \''+(item.getTitle()|escapeQuotes)+'\' }' }}" ng-class="{playing: currentTrack.trackId === item.getId()}"></button> -->
+		<!-- <button ng-click="addToPlaystack()" ng-attr-title="{{ 'A11Y_APPEND_PLAYLIST_LINK' | translate:'{ name: \''+(item.getTitle()|escapeQuotes)+'\' }' }}" class="item item-addToPlaystack"></button> -->
+    <!-- </div> -->
+  </div>
+  <!-- <div class="list-item-buttons"> -->
+    <!-- <button class="track-action" ng-click="openModal()" ng-attr-title="{{ 'A11Y_APPEND_PLAYLIST_LINK' | translate:'{ name: \''+(item.getTitle()|escapeQuotes)+'\' }' }}" aria-hidden="true"> -->
+      <!-- <span class="glyphicon glyphicon-option-vertical"></span> -->
+    <!-- </button> -->
+  <!-- </div> -->
+  <div class="list-item-caption" ng-click="onCaptionClick()">
+    <!-- <div class="list-item-captionLeft" ng-class="{noNumber: !number}"> -->
+      <!-- <div class="list-item-number">{{ ::number }}</div> -->
+    <!-- </div> -->
+    <div class="list-item-captionRight" ng-class="{noNumber: !number}">
+      <h2 data-title-scope>
+        <!-- <a href="{{ ::item.getTitleLink() }}" ng-click="onTitleClick($event)" class="list-item-title clickable"><span>{{ ::item.getTitle() }}</span></a> -->
+		<a href="{{ ::item.getTitleLink() }}" class="list-item-title clickable"><span>{{ ::item.getTitle() }}</span></a>
+      </h2>
+      <h2 data-subtitle-scope>
+        <a href="{{ ::item.getSubtitleLink() }}" ng-click="onSubtitleClick($event)" class="list-item-subtitle clickable"><span>{{ ::item.getSubtitle() }}</span></a>
+      </h2>
+    </div>
+  </div>
+</div>

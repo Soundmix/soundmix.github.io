@@ -1,0 +1,4 @@
+User-Agent: *
+Disallow: %GOOGLE_INDEXATION%
+
+Sitemap: http://%RITMIC_URL%/sitemap.xml

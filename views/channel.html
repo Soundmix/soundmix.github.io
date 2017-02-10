@@ -1,0 +1,37 @@
+<div id="page-album" ng-show="channel.getTitle()" itemscope itemtype="http://schema.org/MusicAlbum">
+
+<div class="page-header">
+	<div class="header-background">
+		<img itemprop="image" class="header-background-images" ng-src="{{ ::channel.getImage() }}" />
+		<div class="header-background-overlay"></div>
+	</div>
+	<div class="header-bloc">
+		<div class="header-bloc-img">
+			<img ng-src="{{ ::channel.getImage() }}" />
+		</div>
+		<div class="header-bloc-right">
+			<h1 itemprop="name">{{ ::channel.getTitle() }}</h1>
+			<div class="header-subtitle">{{ ::channel.getSubTitle() }}</div>
+			<div class="header-socialize">
+				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+				<span ng-hide="socializeOpened">{{ 'ITEM_COPY' | translate }}</span>
+				<socialize socialize-opened="socializeOpened"></socialize>
+			</div>
+			<div class="header-actions">
+				<div ng-click="openObjectModal()" class="clickable"><span class="glyphicon glyphicon-option-vertical"></span></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="page-body">
+	<div class="page-section">
+		<div>{{ channel.getDescription() }}</div>
+	</div>
+	<div class="page-section">
+		<tracklist tracks="allVideos" current-track="currentTrack" display-schema="true"></tracklist>
+		<div ng-show="videosLoading" class="loader-big"></div>
+		<a href="javascript:;" class="show-more" ng-click="moreVideos()" ng-hide="videosLoading || nextPageToken == undefined"><span class="show-more-label">{{ 'YOUTUBE_CHANNEL_PAGE_SHOW_MORE_VIDEOS' | translate }}</span></a>
+	</div>
+</div>
+<div class="loader-big" ng-show="pageLoading"></div>
