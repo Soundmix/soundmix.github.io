@@ -1,10 +1,10 @@
 <?php
 
-  define('API_HOST', '<!-- @echo PHP_API_HOST -->');
-  define('API_PATH', '<!-- @echo PHP_API_PATH -->');
-  define('SITEMAP_BASE_URL', '<!-- @echo PHP_SITEMAP_BASE_URL -->');
-  define('SET_PROXY', <!-- @echo PHP_SET_PROXY -->);
-  define('PROXY_URL', '<!-- @echo PHP_PROXY -->');
-  define('FACEBOOK_ADMINS', '<!-- @echo PHP_FACEBOOK -->');
+  define('API_HOST', 'http://integ.orange.com');
+  define('API_PATH', '/backend/rest/');
+  define('SITEMAP_BASE_URL', 'http://localhost/');
+  define('SET_PROXY', true);
+  define('PROXY_URL', '');
+  define('FACEBOOK_ADMINS', '100003860741799');
 
 ?>

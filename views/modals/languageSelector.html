@@ -1,11 +1,1 @@
-<div class="modal-header">
-  <h2>{{ ::('MODAL_LANGUAGE_SELECTOR_TITLE' | translate) }}</h2>
-  <span class="modal-close" ng-click="close()"><span class="glyphicon glyphicon-remove"></span></span>
-</div>
-<div class="selector-modal">
-  <ul>
-    <li ng-repeat="locale in availableLanguages" ng-class="{selected: locale === currentLocale}">
-      <span ng-click="changeLocale(locale)">{{ ::locale }}</span>
-    </li>
-  </ul>
-</div>
+<div class="modal-header"> <h2>{{ ::('MODAL_LANGUAGE_SELECTOR_TITLE' | translate) }}</h2> <span class="modal-close" ng-click="close()"><span class="glyphicon glyphicon-remove"></span></span> </div> <div class="selector-modal"> <ul> <li ng-repeat="locale in availableLanguages" ng-class="{selected: locale === currentLocale}"> <span ng-click="changeLocale(locale)">{{ ::locale }}</span> </li> </ul> </div>
