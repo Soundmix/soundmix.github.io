@@ -11,7 +11,7 @@ var config = {
   },
   port: 8000,
 //  internalServicePath: 'http://127.0.0.1/',
-  internalServicePath: 'http:/',
+  internalServicePath: '%PHANTOM_INTERNAL_SERVICE%',
   monitorTimeout: 5000
 };
 
