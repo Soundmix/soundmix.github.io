@@ -1,5 +1,5 @@
 var API_PATH = 'http://rec.copernic.orangeadd.com/api';
-var BASE_URL = 'http://soundmix.github.io/';
+var BASE_URL = 'https://soundmix.github.io/';
 var AUTH_API_PATH = 'https://preprod.identity.ohdevelopers.orange.com/openam';
 var VERSION = 'V0.1';
 var ANALYTICS = 'UA-73443778-1';
